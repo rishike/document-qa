@@ -1,0 +1,18 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.react-pdf__Page__canvas {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .pdfViewer {
+    max-height: 500px; /* Adjust based on your needs */
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding: 10px;
+    max-width: 600px;
+    border: 1px solid #ccc; /* Optional: adds a border around the PDF viewer */
+  }
