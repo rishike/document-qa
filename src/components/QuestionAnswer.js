@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { pdfjs } from 'react-pdf';
-import { Worker, Viewer, Document, Page } from 'react-pdf';
+import { Document, Page } from 'react-pdf';
 
 
 // console.log(pdfjs.version);
@@ -16,6 +16,7 @@ const QuestionAnswer = () => {
     const [isUploading, setIsUploading] = useState(false);
     const fileInputRef = useRef(null);
     const [numPages, setNumPages] = useState(null);
+    const [pdfUrl, setPdfUrl] = useState('');
 
 
   const handleFileDrop = async (e) => {
@@ -108,6 +109,30 @@ const QuestionAnswer = () => {
     }
   };
 
+  const handleUrlSubmit = async () => {
+    if (!pdfUrl.trim()) {
+      alert('Please enter a valid PDF URL.')
+    }
+    try {
+      setIsUploading(true);
+      const response = await axios({
+        url: pdfUrl,
+        method: 'GET',
+        responseType: 'blob',
+      });
+
+      const file = new Blob([response.data], { type: 'application/pdf' });
+      const filename = pdfUrl.split('/').pop();
+      await uploadFile(new File([file], filename, { type: 'application/pdf' }));
+      setPdfFile(new File([file], filename));
+
+    } catch (error) {
+      console.error('Error Downloading or uploading file')
+    } finally {
+      setIsUploading(false);
+    }
+  }
+
   return (
     <div className="flex h-screen">
       <div className="flex-1 flex flex-col justify-center items-center border-r">
@@ -123,9 +148,16 @@ const QuestionAnswer = () => {
             accept="application/pdf"
             ref={fileInputRef}
             className="hidden"
-            name='file'
+            name="file"
           />
           Drag and drop a PDF here or click to upload
+        </div>
+        <div className="flex-2 flex-col p-4">
+          <input type="text" value={pdfUrl} onChange={(e) => setPdfUrl(e.target.value)}
+          placeholder="Enter PDF URL"
+          className="p-2 border mb-2"
+          />
+          <button onClick={handleUrlSubmit} className="mb-4 bg-blue-500 text-white p-2">Upload from URL</button>
         </div>
         <div>
             <br/>
