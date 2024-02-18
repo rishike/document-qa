@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { pdfjs } from 'react-pdf';
 import { Document, Page } from 'react-pdf';
-
+import { v4 as uuidv4 } from 'uuid';
 
 // console.log(pdfjs.version);
 
@@ -91,7 +91,6 @@ const QuestionAnswer = () => {
       const response = await axios.post('http://localhost:8000/upload-pdf/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-
         },
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -122,10 +121,9 @@ const QuestionAnswer = () => {
       });
 
       const file = new Blob([response.data], { type: 'application/pdf' });
-      const filename = pdfUrl.split('/').pop();
+      const filename = `pdf_${uuidv4()}.pdf`;
       await uploadFile(new File([file], filename, { type: 'application/pdf' }));
-      setPdfFile(new File([file], filename));
-
+      setPdfFile(pdfUrl);
     } catch (error) {
       console.error('Error Downloading or uploading file')
     } finally {
@@ -137,7 +135,7 @@ const QuestionAnswer = () => {
     <div className="flex h-screen">
       <div className="flex-1 flex flex-col justify-center items-center border-r">
         <div
-          className="w-3/4 h-1/4 border-2 border-dashed border-gray-400 flex justify-center items-center cursor-pointer"
+          className="w-3/4 h-1/4 border-2 border-dashed border-gray-400 flex justify-center items-center cursor-pointer p-2"
           onClick={handleClickToUpload}
           onDrop={handleFileDrop}
           onDragOver={handleDragOver}
@@ -152,16 +150,14 @@ const QuestionAnswer = () => {
           />
           Drag and drop a PDF here or click to upload
         </div>
-        <div className="flex-2 flex-col p-4">
+        <div className="flex-2 flex-col p-2">
           <input type="text" value={pdfUrl} onChange={(e) => setPdfUrl(e.target.value)}
           placeholder="Enter PDF URL"
-          className="p-2 border mb-2"
+          className="p-1 border mb-1"
           />
-          <button onClick={handleUrlSubmit} className="mb-4 bg-blue-500 text-white p-2">Upload from URL</button>
+          <button onClick={handleUrlSubmit} className="mb-2 bg-blue-500 text-white p-1">Upload from URL</button>
         </div>
         <div>
-            <br/>
-            <hr/>
         </div>
         {isUploading && (
         <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
@@ -182,8 +178,18 @@ const QuestionAnswer = () => {
             ),
           )}
         </Document>
-        
       )}
+      {/* {pdfUrl && (
+        <div className="iframe-container" style={{ height: '500px', width: '100%' }}>
+          <iframe
+            src={pdfUrl}
+            width="100%"
+            height="100%"
+            frameBorder="0"
+            title="PDF Document"
+          ></iframe>
+        </div>
+      )} */}
       </div>
       </div>
       <div className="flex-1 flex flex-col p-4">
