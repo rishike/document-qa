@@ -17,7 +17,10 @@ const QuestionAnswer = () => {
     const fileInputRef = useRef(null);
     const [numPages, setNumPages] = useState(null);
     const [pdfUrl, setPdfUrl] = useState('');
+    const [isProcessing, setIsProcessing] = useState(false);
 
+  const S3Url = "http://127.0.0.1:5000/load_document";
+  const askUrl = "http://127.0.0.1:5000/user_question";
 
   const handleFileDrop = async (e) => {
     e.preventDefault();
@@ -62,13 +65,13 @@ const QuestionAnswer = () => {
         alert('Please upload a PDF file before asking a question.');
         return;
       }
-    
-    const filename = pdfFile.name; 
+    setIsProcessing(true); 
+    // const filename = pdfFile.name;
     try {
         
-        const response = await axios.post('http://127.0.0.1:8000/ask/', {
+        const response = await axios.post(askUrl, {
           "question":question,
-          "filename" : filename
+          // "filename" : filename
         });
         if (response.data && response.data.answer) {
           setAnswer(response.data.answer); // Update the state with the received answer
@@ -79,18 +82,22 @@ const QuestionAnswer = () => {
       } catch (error) {
         console.error('Error asking question:', error);
         setAnswer('An error occurred while trying to process your question.');
+      } finally {
+        setIsProcessing(false);
       }
   };
 
   const uploadFile = async (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
+    // const formData = new FormData();
+    // formData.append('file', file);
 
     try {
       setIsUploading(true);
-      const response = await axios.post('http://localhost:8000/upload-pdf/', formData, {
+      const response = await axios.post(S3Url, {
+      "s3_presigned_url" : pdfUrl 
+      }, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -125,7 +132,7 @@ const QuestionAnswer = () => {
       await uploadFile(new File([file], filename, { type: 'application/pdf' }));
       setPdfFile(pdfUrl);
     } catch (error) {
-      console.error('Error Downloading or uploading file')
+      console.error('Error Downloading or uploading file :', error)
     } finally {
       setIsUploading(false);
     }
@@ -185,7 +192,6 @@ const QuestionAnswer = () => {
             src={pdfUrl}
             width="100%"
             height="100%"
-            frameBorder="0"
             title="PDF Document"
           ></iframe>
         </div>
@@ -200,6 +206,11 @@ const QuestionAnswer = () => {
           placeholder="Ask a question"
           className="p-2 border mb-4"
         />
+        {isProcessing && (
+        <div className="text-center py-2">
+          <b>Processing your question, please wait ...</b>
+        </div>
+      )}
         <textarea
           value={answer}
           readOnly
