@@ -19,8 +19,8 @@ const QuestionAnswer = () => {
     const [pdfUrl, setPdfUrl] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
 
-  const S3Url = "http://127.0.0.1:5000/load_document";
-  const askUrl = "http://127.0.0.1:5000/user_question";
+  const S3Url = "http://127.0.0.1:8000/load_document";
+  const askUrl = "http://127.0.0.1:8000/user_question";
 
   const handleFileDrop = async (e) => {
     e.preventDefault();
