@@ -16,3 +16,31 @@
     max-width: 600px;
     border: 1px solid #ccc; /* Optional: adds a border around the PDF viewer */
   }
+
+  .iframe-container {
+    max-height: 500px; /* Adjust based on your needs */
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding: 10px;
+    max-width: 600px;
+    border: 1px solid #ccc;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .spinner-border {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: text-bottom;
+    border: 0.25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
