@@ -12,7 +12,7 @@ const Header = () => {
       <header className="bg-[#003366] p-3 md:p-5 shadow-md">
         <div className="container mx-auto">
           <div className="flex justify-center md:justify-between items-center">
-            <h1 className="text-lg md:text-xl text-white font-semibold">Document Question Answering</h1>
+            <h1 className="text-lg md:text-xl text-white font-semibold">LLM ChatBot</h1>
             <nav className="hidden md:block">
               <ul className="flex justify-center space-x-4">
               </ul>

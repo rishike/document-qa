@@ -1,0 +1,26 @@
+.chatbot-container {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .history-panel {
+    width: 200px;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #f0f0f0;
+    padding: 10px;
+  }
+  
+  .chat-interface {
+    flex-grow: 1;
+    padding: 20px;
+  }
+  
+  .history-message {
+    margin-bottom: 15px;
+  }
+  
+  .answer-area {
+    margin-top: 20px;
+  }
+  

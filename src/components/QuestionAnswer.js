@@ -182,8 +182,8 @@ const QuestionAnswer = () => {
 
   return (
     <div className="flex h-screen">
-      <div className="flex-1 flex flex-col justify-center items-center border-r">
-        <div
+      {/* <div className="flex-1 flex flex-col justify-center items-center border-r"> */}
+        {/* <div
           className="w-3/4 h-1/4 border-2 border-dashed border-gray-400 flex justify-center items-center cursor-pointer p-2"
           onClick={handleClickToUpload}
           onDrop={handleFileDrop}
@@ -217,9 +217,9 @@ const QuestionAnswer = () => {
   <div className="flex justify-center items-center">
     <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
   </div>
-)}
+)} */}
 
-{isSuccess && (
+{/* {isSuccess && (
   <div className="flex justify-center items-center text-green-500">
     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
   </div>
@@ -243,8 +243,8 @@ const QuestionAnswer = () => {
         </Document>
       )}
       </div>
-  
-      {pdfUrl && (
+   */}
+      {/* {pdfUrl && (
         <div className="iframe-container" style={{ height: '500px', width: '100%' }}>
           <iframe
             src={pdfUrl}
@@ -254,7 +254,7 @@ const QuestionAnswer = () => {
           ></iframe>
          </div>
       )}
-      </div>
+      </div> */}
       <div className="flex-1 flex flex-col p-4">
         <input
           type="text"
